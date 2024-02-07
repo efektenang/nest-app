@@ -6,11 +6,11 @@ import {
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { PrismaService } from 'src/prisma.service';
-import { Book } from '@prisma/client';
+import { Book as BookModel } from '@prisma/client';
 
 @Injectable()
 export class BooksService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createBookDto: CreateBookDto) {
     const isReady = await this.prisma.book.findUnique({
@@ -30,11 +30,11 @@ export class BooksService {
     return saveBook;
   }
 
-  async findAll(): Promise<Book[]> {
+  async findAll(): Promise<BookModel[]> {
     return this.prisma.book.findMany();
   }
 
-  async findOne(id: number): Promise<Book> {
+  async findOne(id: number): Promise<BookModel> {
     const book = await this.prisma.book.findUnique({
       where: { id },
     });
@@ -58,7 +58,7 @@ export class BooksService {
     });
   }
 
-  async remove(id: number): Promise<Book> {
+  async remove(id: number): Promise<BookModel> {
     const book = await this.prisma.book.findUnique({
       where: { id }
     })
