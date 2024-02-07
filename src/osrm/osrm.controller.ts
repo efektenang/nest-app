@@ -11,7 +11,7 @@ export class OsrmController {
     const result = await this.osrmService.calculateDistance(body)
     const { weight_name, weight, duration, distance } = result.routes[0]
 
-    // // convert meter to kilometer if distance more than 1000
+    // convert meter to kilometer if distance more than 1000
     let stringDistance = `${distance} m`
 
     if (distance > 1000) {
@@ -33,10 +33,14 @@ export class OsrmController {
     const { weight_name, weight, duration, distance } = result.routes[0]
 
     // convert meter to kilometer if distance more than 1000
-    let stringDistance = `${distance} m`
+    let stringDistance
 
     if (distance > 1000) {
-      stringDistance = `${distance / 1000} km`
+      stringDistance = distance / 1000
+      const fixedDistance = stringDistance.toFixed(2)
+      stringDistance = fixedDistance + ' km'
+    } else {
+      stringDistance = distance + ' m'
     }
 
     return res.json({
